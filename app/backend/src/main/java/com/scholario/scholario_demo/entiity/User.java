@@ -1,14 +1,17 @@
 package com.scholario.scholario_demo.entiity;
 
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "user_type")
 @Table(name = "users")
 public class User {
   @Id
@@ -21,21 +24,20 @@ public class User {
   private String role;
   private String phone;
   private String address;
-
-  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-  private Student student;
+  private String birthdate;
 
   public User() {
   }
 
   public User(String name, String email, String password, String role, String phone,
-      String address) {
+      String address, String birthdate) {
     this.name = name;
     this.email = email;
     this.password = password;
     this.role = role;
     this.phone = phone;
     this.address = address;
+    this.birthdate = birthdate;
   }
 
   public Long getId() {
@@ -94,11 +96,11 @@ public class User {
     this.address = address;
   }
 
-  public Student getStudent() {
-    return student;
+  public String getBirthdate() {
+    return birthdate;
   }
 
-  public void setStudent(Student student) {
-    this.student = student;
+  public void setBirthdate(String birthdate) {
+    this.birthdate = birthdate;
   }
 }
